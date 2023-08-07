@@ -38,9 +38,11 @@ function runGame(gameType) {
     if (gameType === "addition") {
         displayAdditionQuestion(num1, num2);
     } else if (gameType === "multiply") {
-        displayMultiplyQuestion(num1,num2);
+        displayMultiplyQuestion(num1, num2);
     } else if (gameType === "subtract") {
-        displaySubtractQuestion(num1, num2);    
+        displaySubtractQuestion(num1, num2); 
+    } else if (gameType === "division") {
+        displayDivisionQuestion(num1, num2);
     } else {  
         alert('Unknown game type: ${gameType}');
         throw 'Unknown game type: ${gameType}.Aborting!';
@@ -85,7 +87,9 @@ function calculateCorrectAnswer() {
     } else if (operator ===  "x") {
         return [operand1 * operand2, "multiply"];   
     } else if (operator === "-") {
-        return [operand1 - operand2, "subtract"];    
+        return [operand1 - operand2, "subtract"];
+    } else if (operator === "/") {
+        return [operand1 / operand2, "division"];    
     } else {  
         alert(`Unimplemented operator ${operator}`);
         throw `Unimplemented operator ${operator}. Aborting!`;
@@ -136,3 +140,23 @@ function displayMultiplyQuestion (operand1, operand2) {
     document.getElementById('operator').textContent = "x";
 
 }
+
+function displayDivisionQuestion(operand1, operand2) {
+    // Swap operands if operand1 is smaller than operand2
+    if (operand1 < operand2) {
+      [operand1, operand2] = [operand2, operand1];
+    }
+  
+    // Calculate the division result (ensuring it's a whole number)
+    let divisionResult = operand1 / operand2;
+    if (divisionResult % 1 !== 0) {
+      // If divisionResult is not a whole number, find the next larger number that makes the division result a whole number
+      operand1 = operand2 * Math.ceil(divisionResult);
+    }
+  
+    // Update the DOM elements with the values of operand1, operand2, and the division symbol "/"
+    document.getElementById("operand1").textContent = operand1;
+    document.getElementById("operand2").textContent = operand2;
+    document.getElementById("operator").textContent = "/";
+}
+  
